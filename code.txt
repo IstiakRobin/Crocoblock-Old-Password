@@ -1,0 +1,13 @@
+function jfb_check_iss_pswd_unique( $value, $context ): bool {
+if ( ! is_string( $value ) || empty( $value ) ) {
+return false;
+}
+$user_id = absint( $context->get_request()['user_id'] ?? 0 );
+$user = get_user_by( 'ID', $user_id );
+
+if ( ! ( $user instanceof \WP_User ) ) {
+return false;
+}
+
+return (bool) wp_check_password( $value, $user->user_pass, $user->ID );
+}
